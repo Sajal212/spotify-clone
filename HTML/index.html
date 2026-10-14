@@ -1,0 +1,808 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify Clone</title>
+<link rel="stylesheet" href="../FONTS/css/all.min.css">
+<link rel="stylesheet" href="../CSS/after.css">
+
+<!-- checking login -->
+<script src="../JS/auth-guard.js"></script>
+
+<style>
+    /* playing song card */
+    .card.playing h4 {
+        color: var(--green-bright);
+    }
+
+    /* play button when song is playing */
+    .card.playing .play-btn,
+    .quick-tile.playing .quick-play {
+        opacity: 1;
+        transform: translateY(0);
+        background: var(--green-bright);
+    }
+
+    /* shuffle button */
+    .control-active {
+        color: var(--green-bright) !important;
+    }
+
+    /* unliked song icon */
+    .song-check.not-liked,
+    .np-check.not-liked {
+        color: var(--text-dim);
+    }
+
+    /* hiding elements */
+    .is-hidden { display: none !important; }
+
+    /* search box */
+    input.search-placeholder {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fff;
+        font-family: inherit;
+        min-width: 0;
+    }
+    input.search-placeholder::placeholder { color: #b3b3b3; }
+
+    /* active library buttons */
+    .chip.active { background: var(--white); color: #000; }
+    .chip.active:hover { background: var(--white); }
+    .playlist-item.active { background: var(--elevated); }
+
+    /* library search box */
+    .library-search {
+        display: none;
+        margin: 0 8px 8px;
+        padding: 8px 12px;
+        background: #242424;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        outline: none;
+        font-size: 14px;
+    }
+    .library-search.show { display: block; }
+
+    /* collapsing and expanding library */
+    .sidebar.collapsed { flex: 0 0 72px; min-width: 72px; resize: none; }
+    .sidebar.collapsed .library-title span,
+    .sidebar.collapsed .library-actions,
+    .sidebar.collapsed .chip-row,
+    .sidebar.collapsed .library-toolbar,
+    .sidebar.collapsed .library-search,
+    .sidebar.collapsed .pl-text { display: none !important; }
+    .sidebar.collapsed .library-top { justify-content: center; }
+    .sidebar.expanded { flex: 0 0 50%; max-width: none; }
+    .right-sidebar.expanded { flex: 0 0 520px; max-width: none; }
+
+    /* popup message */
+    .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 110px;
+        transform: translateX(-50%);
+        background: #fff;
+        color: #000;
+        padding: 12px 22px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s;
+        z-index: 100;
+    }
+    .toast.show { opacity: 1; }
+
+    /* no search results */
+    .no-results { display: none; padding: 40px 0; text-align: center; color: var(--text-dim); font-size: 18px; }
+    .no-results.show { display: block; }
+
+    /* playlist page */
+    .collection { padding: 8px 0 32px; }
+    .collection-head { display: flex; align-items: flex-end; gap: 24px; padding: 16px 0 24px; }
+    .collection-art {
+        width: 180px; height: 180px; border-radius: 8px; object-fit: cover; flex-shrink: 0;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        display: flex; align-items: center; justify-content: center;
+    }
+    .collection-art.liked-art { background: linear-gradient(135deg, #450af5, #c4efd9); font-size: 64px; }
+    .collection-head small { font-size: 13px; font-weight: 700; }
+    .collection-head h1 { font-size: 56px; font-weight: 800; margin: 6px 0 10px; }
+    .collection-head p { color: var(--text-dim); font-size: 14px; }
+    .collection-play {
+        width: 56px; height: 56px; border-radius: 50%;
+        background: var(--green-bright); color: #000; font-size: 20px;
+        display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .collection-play:hover { transform: scale(1.06); }
+    .song-row {
+        display: grid; grid-template-columns: 32px 1fr 40px; align-items: center;
+        gap: 12px; padding: 8px 12px; border-radius: 4px; cursor: pointer;
+    }
+    .song-row:hover { background: rgba(255,255,255,0.1); }
+    .row-num { text-align: center; color: var(--text-dim); }
+    .row-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .row-main img { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
+    .row-title { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .row-artist { font-size: 13px; color: var(--text-dim); }
+    .song-row.playing .row-title, .song-row.playing .row-num { color: var(--green-bright); }
+    .row-heart { color: var(--text-dim); font-size: 16px; }
+    .row-heart.liked { color: var(--green-bright); }
+    .empty-message { color: var(--text-dim); padding: 24px 12px; }
+</style>
+</head>
+<body>
+
+<!-- audio player -->
+<audio id="audioPlayer" preload="auto"></audio>
+
+<!-- popup message -->
+<div class="toast" id="toast"></div>
+
+<div class="app">
+
+    <!-- top navigation bar -->
+    <header class="topbar">
+
+        <div class="topbar-left">
+            <a href="#" class="brand"><i class="fa-brands fa-spotify"></i></a>
+        </div>
+
+        <div class="topbar-center">
+            <a href="index.html" class="pill-icon-btn" aria-label="Home">
+                <i class="fa-solid fa-house"></i>
+            </a>
+
+            <div class="search-pill">
+                <i class="fa-solid fa-magnifying-glass search-ic"></i>
+                <input class="search-placeholder" id="searchInput" type="text" placeholder="What do you want to play?">
+                <div class="search-divider"></div>
+                <i class="fa-solid fa-box-archive browse-ic"></i>
+            </div>
+        </div>
+
+        <div class="topbar-right">
+            <button class="premium-btn">Explore Premium</button>
+
+            <a href="#" class="install-link">
+                <i class="fa-solid fa-circle-down"></i>
+                <span>Install App</span>
+            </a>
+
+            <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            <button class="icon-btn"><i class="fa-solid fa-user-group"></i></button>
+            <a href="before.html" class="avatar" aria-label="Log out" onclick="logout(); return false;"><i class="fa-solid fa-user"></i></a>
+        </div>
+
+    </header>
+
+    <!-- main body -->
+    <div class="body-row">
+
+        <!-- left sidebar -->
+        <aside class="sidebar">
+
+            <div class="library-top">
+                <div class="library-title">
+                    <button class="collapse-btn" aria-label="Collapse Your Library">
+                        <i class="fa-solid fa-table-columns"></i>
+                    </button>
+                    <span>Your Library</span>
+                </div>
+                <div class="library-actions">
+                    <button class="lib-add-btn" aria-label="Add"><i class="fa-solid fa-plus"></i></button>
+                    <button class="expand-btn" aria-label="Expand your library">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chip-row">
+                <button class="chip">Playlists</button>
+                <button class="chip">Artists</button>
+                <button class="chip">Podcasts</button>
+            </div>
+
+            <div class="library-toolbar">
+                <button class="tool-search-btn" aria-label="Search your library">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="recents-btn">
+                    <span>Recents</span>
+                    <i class="fa-solid fa-list"></i>
+                </button>
+            </div>
+
+            <input class="library-search" id="librarySearch" type="text" placeholder="Search in Your Library">
+
+            <!-- library playlists -->
+            <div class="playlists">
+
+                <div class="playlist-item pinned">
+                    <div class="pl-icon liked">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div class="pl-text">
+                        <p class="pl-name">Liked Songs</p>
+                        <p class="pl-sub"><i class="fa-solid fa-thumbtack pin-ic"></i>Playlist &bull; 55 songs</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item pinned">
+                    <div class="pl-icon episodes">
+                        <i class="fa-solid fa-bookmark"></i>
+                    </div>
+                    <div class="pl-text">
+                        <p class="pl-name">Your Episodes</p>
+                        <p class="pl-sub"><i class="fa-solid fa-thumbtack pin-ic"></i>Playlist &bull; Saved &amp; downloaded</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist1.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">I Don't Chase, I Attract</p>
+                        <p class="pl-sub">Playlist &bull; Alira Rose</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist2.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Static Bloom</p>
+                        <p class="pl-sub">Playlist &bull; Sajal</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist3.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Indian Murder Mystery</p>
+                        <p class="pl-sub">Podcast &bull; Red FM</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon circle" src="../IMAGES/playlist4.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Aeria</p>
+                        <p class="pl-sub">Artist</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist1.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">NCS: Chill Wave</p>
+                        <p class="pl-sub">Playlist &bull; Spotify</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon circle" src="../IMAGES/playlist2.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Kaelo</p>
+                        <p class="pl-sub">Artist</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist3.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Gaming Beats Vol. 1</p>
+                        <p class="pl-sub">Album &bull; Warriyo</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist4.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Study Sessions</p>
+                        <p class="pl-sub">Playlist &bull; 64 songs</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist1.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Late Night Focus</p>
+                        <p class="pl-sub">Playlist &bull; 37 songs</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon circle" src="../IMAGES/playlist2.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Sable Rune</p>
+                        <p class="pl-sub">Artist</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist3.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">Workout</p>
+                        <p class="pl-sub">Playlist &bull; 51 songs</p>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <img class="pl-icon" src="../IMAGES/playlist4.jpg" alt="">
+                    <div class="pl-text">
+                        <p class="pl-name">HARD DRIVE Vol. 2</p>
+                        <p class="pl-sub">Album &bull; Raftaar</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- main content -->
+        <main class="main">
+
+            <!-- music filters -->
+            <div class="filter-row">
+                <button class="filter-pill active">All</button>
+                <button class="filter-pill">Music</button>
+                <button class="filter-pill">Podcasts</button>
+            </div>
+
+            <!-- quick playlists -->
+            <section class="quick-grid">
+                <div class="quick-tile liked-tile">
+                    <div class="liked pl-icon quick-icon">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <span>Liked Songs</span>
+                    <div class="quick-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="quick-tile has-progress">
+    <img src="../IMAGES/quick1.jpg" alt="">
+    <span>Real Horror Stories That Will Hau...</span>
+    <div class="quick-play"><i class="fa-solid fa-play"></i></div>
+    <div class="quick-progress"><div style="width:34%"></div></div>
+</div>
+                <div class="quick-tile">
+                    <img src="../IMAGES/quick2.jpg" alt="">
+                    <span>Faasle Radio</span>
+                    <div class="quick-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+                <div class="quick-tile">
+    <img src="../IMAGES/quick3.jpg" alt="">
+    <span>5 Minute Morning Meditation for Busy Days: Center Yourself</span>
+    <div class="quick-play"><i class="fa-solid fa-play"></i></div>
+                </div>
+            </section>
+
+            <!-- albums section -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Albums featuring songs you like</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards">
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover1.jpg" alt="Leo">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Leo</h4>
+                        <p>Shubh</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover2.jpg" alt="International Villager">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>International Villager</h4>
+                        <p>Yo Yo Honey Singh</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover3.jpg" alt="Table No. 21">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Table No. 21 (Original Motion Picture...</h4>
+                        <p>Gajendra Verma, Sachin Gupta, Aseem Ahmed...</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover4.jpg" alt="Namaste England">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Namaste England (Original Moti...</h4>
+                        <p>Mannan Shaah, Badshah, Rishi R...</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- recently played -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Recents</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover5.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>NCS: Chill Wave</h4>
+                        <p>Laid-back beats to unwind to</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover6.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Top 50 - Global</h4>
+                        <p>Your daily update of the most played tracks</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover7.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Workout</h4>
+                        <p>Get pumped with these high energy hits</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover8.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>NCS: Focus</h4>
+                        <p>Instrumental tracks to help you focus</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- made for you -->
+            <section class="section">
+                <div class="eyebrow">Made For</div>
+                <div class="section-title">
+                    <h2>Aeria</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover9.jpg" alt="">
+                            <div class="mix-tag mix-1"><span>Daily Mix</span><strong>01</strong></div>
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Daily Mix 1</h4>
+                        <p>Aeria, Kaelo, Sable Rune and more</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover1.jpg" alt="">
+                            <div class="mix-tag mix-2"><span>Daily Mix</span><strong>02</strong></div>
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Daily Mix 2</h4>
+                        <p>Fresh picks based on your taste</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover2.jpg" alt="">
+                            <div class="mix-tag mix-3"><span>Daily Mix</span><strong>03</strong></div>
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Release Radar</h4>
+                        <p>New releases from artists you follow</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover3.jpg" alt="">
+                            <div class="mix-tag mix-4"><span>Daily Mix</span><strong>04</strong></div>
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Chill Hits</h4>
+                        <p>Relax, study and focus with calm tracks</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover4.jpg" alt="">
+                            <div class="mix-tag mix-5"><span>Daily Mix</span><strong>05</strong></div>
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>NCS: Gaming Mix</h4>
+                        <p>High energy tracks for gaming</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- recommended stations -->
+            <section class="section">
+                <p class="section-desc">Non-stop music based on your favorite songs and artists.</p>
+                <div class="section-title">
+                    <h2>Recommended Stations</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards stations">
+                    <div class="card station station-1">
+                        <div class="cover station-cover">
+                            <span class="radio-tag">Radio</span>
+                            <span class="station-name">Night Drive</span>
+                        </div>
+                        <p>With Aeria, Kaelo and more</p>
+                    </div>
+
+                    <div class="card station station-2">
+                        <div class="cover station-cover">
+                            <span class="radio-tag">Radio</span>
+                            <span class="station-name">Sable Rune</span>
+                        </div>
+                        <p>With Vantablack, Echo Park and more</p>
+                    </div>
+
+                    <div class="card station station-3">
+                        <div class="cover station-cover">
+                            <span class="radio-tag">Radio</span>
+                            <span class="station-name">Trap Nation</span>
+                        </div>
+                        <p>With Warriyo, Kaelo and more</p>
+                    </div>
+
+                    <div class="card station station-4">
+                        <div class="cover station-cover">
+                            <span class="radio-tag">Radio</span>
+                            <span class="station-name">Deep Focus</span>
+                        </div>
+                        <p>With Echo Park, Nova Drift and more</p>
+                    </div>
+
+                    <div class="card station station-5">
+                        <div class="cover station-cover">
+                            <span class="radio-tag">Radio</span>
+                            <span class="station-name">Retro Wave</span>
+                        </div>
+                        <p>With Nova Drift, Aeria and more</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- jump back in -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Jump Back In</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover5.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Study Sessions</h4>
+                        <p>Playlist &bull; 64 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover6.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Late Night Focus</h4>
+                        <p>Playlist &bull; 37 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover7.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>Workout</h4>
+                        <p>Playlist &bull; 51 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover">
+                            <img src="../IMAGES/cover8.jpg" alt="">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                        </div>
+                        <h4>HARD DRIVE Vol. 2</h4>
+                        <p>Album &bull; Raftaar</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- no search results -->
+            <p class="no-results" id="noResults">No results found. Try a different search.</p>
+
+            <!-- liked songs and playlist page -->
+            <div class="collection is-hidden" id="collectionView"></div>
+
+            <!-- footer -->
+            <footer class="site-footer">
+
+                <div class="footer-cols">
+
+                    <div class="footer-col">
+                        <h5>Company</h5>
+                        <a href="about.html">About Us</a>
+                        <a href="contact.html">Contact Us</a>
+                        <a href="#">Jobs</a>
+                        <a href="#">For the Record</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Communities</h5>
+                        <a href="#">For Artists</a>
+                        <a href="#">Developers</a>
+                        <a href="#">Advertising</a>
+                        <a href="#">Investors</a>
+                        <a href="#">Vendors</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Useful Links</h5>
+                        <a href="#">Support</a>
+                        <a href="#">Free Mobile App</a>
+                        <a href="#">Popular by Country</a>
+                        <a href="#">Import your Music</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Spotify Plans</h5>
+                        <a href="#">Premium Standard</a>
+                        <a href="#">Premium Platinum</a>
+                        <a href="#">Premium Student</a>
+                        <a href="#">Spotify Free</a>
+                    </div>
+
+                    <div class="footer-social">
+                        <button class="social-ic" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></button>
+                        <button class="social-ic" aria-label="X"><i class="fa-brands fa-x-twitter"></i></button>
+                        <button class="social-ic" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <a href="#">Legal</a>
+                        <a href="#">Safety &amp; Privacy Center</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Cookies</a>
+                        <a href="#">About Ads</a>
+                        <a href="#">Accessibility</a>
+                    </div>
+                    <div class="footer-copyright">&copy; 2026 Spotify AB</div>
+                </div>
+
+            </footer>
+
+        </main>
+
+        <!-- right sidebar -->
+        <aside class="right-sidebar">
+
+            <!-- current playlist name -->
+            <div class="context-title">
+                <div class="context-title-left">
+                    <i class="fa-solid fa-table-columns"></i>
+                    <span>Liked Songs</span>
+                </div>
+                <div class="context-title-right">
+                    <button class="context-more" aria-label="More options"><i class="fa-solid fa-ellipsis"></i></button>
+                    <button class="context-expand" aria-label="Expand"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+                </div>
+            </div>
+
+            <!-- current song details -->
+            <div class="now-playing-card">
+                <img class="np-art-large" id="npArt" src="../IMAGES/nowplaying.jpg" alt="">
+                <div class="np-track-row">
+                    <div class="np-track-text">
+                        <p class="np-title" id="npTitle">God Damn</p>
+                        <p class="np-artist" id="npArtist">Badshah, Karan Aujla, Hiten</p>
+                    </div>
+                    <div class="np-track-icons">
+                        <button class="np-share" aria-label="Share"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+                        <i class="fa-solid fa-circle-check np-check" id="npLike" aria-label="Liked"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- artist information -->
+            <div class="artist-card">
+                <img src="../IMAGES/cover9.jpg" alt="">
+                <div class="artist-overlay">
+                    <span class="artist-label">About the artist</span>
+                    <h3>Aeria</h3>
+                    <p>Independent electronic producer known for wide, cinematic synth work and driving basslines. Tracks featured here are released under Creative Commons for free use.</p>
+                    <a class="artist-link" href="#">See artist</a>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- bottom music player -->
+    <footer class="player">
+
+        <!-- song details -->
+        <div class="song">
+            <img id="playerArt" src="../IMAGES/nowplaying.jpg" alt="">
+            <div class="song-text">
+                <div class="song-name" id="playerSongName">God Damn</div>
+                <div class="artist" id="playerArtist">Badshah, Karan Aujla, Hiten</div>
+            </div>
+            <i class="fa-solid fa-circle-check song-check" id="playerLike" aria-label="Liked"></i>
+        </div>
+
+        <!-- player controls -->
+        <div class="controls">
+
+            <!-- play pause next previous buttons -->
+            <div class="buttons">
+                <i class="fa-solid fa-shuffle icon-btn small" id="shuffleBtn"></i>
+                <i class="fa-solid fa-backward-step icon-btn small" id="prevBtn"></i>
+                <div class="play-circle" id="playPauseBtn"><i class="fa-solid fa-play"></i></div>
+                <i class="fa-solid fa-forward-step icon-btn small" id="nextBtn"></i>
+                <i class="fa-solid fa-repeat icon-btn small" id="repeatBtn"></i>
+            </div>
+
+            <!-- song progress bar -->
+            <div class="progress-row">
+                <span id="currentTimeText">0:00</span>
+                <div class="progress" id="progressBar"><div id="progressFill" style="width:0%"></div></div>
+                <span id="totalTimeText">2:47</span>
+            </div>
+
+        </div>
+
+        <!-- volume and other controls -->
+        <div class="right-controls">
+            <i class="fa-solid fa-microphone icon-btn small" id="lyricsBtn"></i>
+            <i class="fa-solid fa-list icon-btn small" id="queueBtn"></i>
+            <i class="fa-solid fa-mobile-screen-button icon-btn small" id="deviceBtn"></i>
+            <div class="volume-group">
+                <i class="fa-solid fa-volume-high icon-btn small" id="volumeIcon"></i>
+                <div class="volume" id="volumeBar"><div id="volumeFill"></div></div>
+            </div>
+            <i class="fa-regular fa-clone icon-btn small" id="nowPlayingViewBtn"></i>
+            <i class="fa-solid fa-expand icon-btn small" id="fullscreenBtn"></i>
+        </div>
+
+    </footer>
+
+</div>
+
+<!-- music player javascript -->
+<script src="../JS/player.js"></script>
+
+<!-- button javascript -->
+<script src="../JS/buttons.js"></script>
+
+</body>
+</html>

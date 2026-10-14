@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify Clone - Preview</title>
+<link rel="stylesheet" href="../FONTS/css/all.min.css">
+<link rel="stylesheet" href="../CSS/before.css">
+</head>
+<body>
+<div class="app">
+
+    <!-- ============ DESKTOP TOPBAR ============ -->
+    <header class="topbar topbar-desktop">
+
+        <div class="topbar-left">
+            <a href="index.html" class="brand"><i class="fa-brands fa-spotify"></i></a>
+            <a href="index.html" class="pill-icon-btn" aria-label="Home">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+
+        <div class="topbar-center">
+            <div class="search-pill">
+                <i class="fa-solid fa-magnifying-glass search-ic"></i>
+                <span class="search-placeholder">What do you want to play?</span>
+                <div class="search-divider"></div>
+                <i class="fa-solid fa-box-archive browse-ic"></i>
+            </div>
+        </div>
+
+        <div class="topbar-right">
+            <nav class="nav-links" aria-label="Site links">
+                <a href="#">Premium</a>
+                <a href="#">Support</a>
+                <a href="#">Download</a>
+            </nav>
+
+            <div class="topbar-divider"></div>
+
+            <a href="#" class="install-link">
+                <i class="fa-solid fa-circle-down"></i>
+                <span>Install App</span>
+            </a>
+
+            <nav class="primary-nav" aria-label="Account navigation">
+                <a href="signup.html" class="nav-link signup-link">Sign up</a>
+                <a href="login.html" class="login-btn">Log in</a>
+            </nav>
+        </div>
+
+    </header>
+
+    <!-- ============ MOBILE TOPBAR ============ -->
+    <header class="topbar topbar-mobile">
+        <a href="#" class="brand-wordmark">
+            <i class="fa-brands fa-spotify"></i>
+            <span>Spotify</span>
+        </a>
+<button class="open-app-btn" onclick="window.location.href='login.html'">
+    Open App
+</button>        <button class="hamburger-btn" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- ============ BODY ROW ============ -->
+    <div class="body-row">
+
+        <!-- SIDEBAR (desktop only) -->
+        <aside class="sidebar">
+
+            <div class="library-top">
+                <div class="library-title">
+                    <span>Your Library</span>
+                </div>
+                <button class="lib-add-btn" aria-label="Add">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+
+            <div class="first-playlist-card">
+                <h3>Create your first playlist</h3>
+                <p>It's easy, we'll help you</p>
+                <button class="create-playlist-btn">Create playlist</button>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Browse genres &amp; moods</h4>
+                <div class="genre-grid">
+                    <button class="genre-chip genre-1">Pop</button>
+                    <button class="genre-chip genre-2">Hip-Hop</button>
+                    <button class="genre-chip genre-3">Bollywood</button>
+                    <button class="genre-chip genre-4">Chill</button>
+                    <button class="genre-chip genre-5">Workout</button>
+                    <button class="genre-chip genre-6">Rock</button>
+                    <button class="genre-chip genre-7">Indie</button>
+                    <button class="genre-chip genre-8">Focus</button>
+                    <button class="genre-chip genre-9">Sleep</button>
+                    <button class="genre-chip genre-10">Party</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>Popular searches</h4>
+                <nav class="popular-searches">
+                    <a href="#">Arijit Singh</a>
+                    <a href="#">Trending Bollywood</a>
+                    <a href="#">Lo-fi Beats</a>
+                    <a href="#">Punjabi Hits</a>
+                    <a href="#">90s Nostalgia</a>
+                    <a href="#">EDM Workout</a>
+                    <a href="#">Study Playlist</a>
+                    <a href="#">Sad Songs</a>
+                    <a href="#">Road Trip Mix</a>
+                    <a href="#">Top Podcasts</a>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+
+                <nav class="sidebar-links">
+                    <a href="#">Legal</a>
+                    <a href="#">Safety &amp; Privacy Center</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">About Ads</a>
+                    <a href="#">Accessibility</a>
+                    <a href="#">Cookies</a>
+                </nav>
+
+                <button class="lang-btn">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>English</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- MOBILE-ONLY PREMIUM PROMO CARD -->
+            <div class="premium-promo">
+                <button class="promo-close" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="promo-badge">
+                    <i class="fa-brands fa-spotify"></i>
+                    <span>Premium</span>
+                </div>
+                <h3>Listen without limits. Try 1 year of Premium Standard for &#8377;799.</h3>
+                <p class="promo-sub">Only &#8377;139/month after. Cancel anytime.</p>
+                <div class="promo-actions">
+                    <button class="promo-cta">Try 1 year for &#8377;799</button>
+                    <a href="#" class="promo-link">View all plans</a>
+                </div>
+                <p class="promo-fine">Premium Standard only. &#8377;799 for 1 year, then &#8377;139 per month after. Limited Eligibility. <a href="#">Terms apply</a>. Offer ends October 15, 2026.</p>
+            </div>
+
+            <!-- TRENDING SONGS -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Trending songs</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards-row">
+<div class="cards">
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song1/400/400" alt="Barsaat">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Barsaat</h4>
+                        <p>Banjaare, Roni</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song2/400/400" alt="Tera Mera Rishta - New Version">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Tera Mera Rishta - New Version (From Andagi 2)</h4>
+                        <p>Mithoon, Pritam, Mustafa Zahid, Sayeed</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song3/400/400" alt="Hangova">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Hangova</h4>
+                        <p>Anirudh Ravichander, Heisenberg</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song4/400/400" alt="KALYANI">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>KALYANI (with Shreya Ghoshal)</h4>
+                        <p>ARJN, KDS, FIFTY4, Shreya Ghoshal</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song5/400/400" alt="Alaakaa Loova">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Alaakaa Loova (From "OM Chapter 1")</h4>
+                        <p>Sai Abhyankkar, Rokesh</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song6/400/400" alt="Horizon Drift">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Horizon Drift</h4>
+                        <p>Aeria</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song7/400/400" alt="Night Circuit">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Night Circuit</h4>
+                        <p>Kaelo</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song8/400/400" alt="Static Bloom">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Static Bloom</h4>
+                        <p>Sable Rune</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song9/400/400" alt="Low Orbit">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Low Orbit</h4>
+                        <p>Vantablack, Echo Park</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song10/400/400" alt="Afterglow">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Afterglow</h4>
+                        <p>Nova Drift</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song11/400/400" alt="Paper Skies">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Paper Skies</h4>
+                        <p>Warriyo</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song12/400/400" alt="Midnight Frame">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Midnight Frame</h4>
+                        <p>Solstice</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song13/400/400" alt="Driftwood Radio">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Driftwood Radio</h4>
+                        <p>Driftwood</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song14/400/400" alt="Nightshade Hour">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Nightshade Hour</h4>
+                        <p>Nightshade</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/song15/400/400" alt="Glass Static">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Glass Static</h4>
+                        <p>Aeria, Kaelo</p>
+                    </div>
+
+                </div>
+</div>
+            </section>
+
+            <!-- POPULAR ARTISTS -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Popular artists</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards-row">
+<div class="cards artists">
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist1/400/400" alt="Aeria">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Aeria</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist2/400/400" alt="Kaelo">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Kaelo</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist3/400/400" alt="Sable Rune">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Sable Rune</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist4/400/400" alt="Vantablack">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Vantablack</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist5/400/400" alt="Echo Park">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Echo Park</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist6/400/400" alt="Nova Drift">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Nova Drift</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist7/400/400" alt="Warriyo">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Warriyo</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist8/400/400" alt="Solstice">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Solstice</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist9/400/400" alt="Driftwood">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Driftwood</h4>
+                        <p>Artist</p>
+                    </div>
+
+                    <div class="card artist-card">
+                        <div class="avatar-wrap">
+<img class="artist-avatar" src="https://picsum.photos/seed/artist10/400/400" alt="Nightshade">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Nightshade</h4>
+                        <p>Artist</p>
+                    </div>
+
+                </div>
+</div>
+            </section>
+
+            <!-- GENRES FOR YOU -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Genres for you</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="genre-tile-grid">
+                    <a href="#" class="genre-tile genre-tile-1">Pop</a>
+                    <a href="#" class="genre-tile genre-tile-2">Hip-Hop</a>
+                    <a href="#" class="genre-tile genre-tile-3">Bollywood</a>
+                    <a href="#" class="genre-tile genre-tile-4">Rock</a>
+                    <a href="#" class="genre-tile genre-tile-5">Electronic</a>
+                    <a href="#" class="genre-tile genre-tile-6">Chill</a>
+                    <a href="#" class="genre-tile genre-tile-7">Indie</a>
+                    <a href="#" class="genre-tile genre-tile-8">Workout</a>
+                    <a href="#" class="genre-tile genre-tile-9">Focus</a>
+                    <a href="#" class="genre-tile genre-tile-10">Sleep</a>
+                </div>
+            </section>
+
+            <!-- PODCASTS -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>Podcasts to try</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards-row">
+<div class="cards">
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod1/400/400" alt="Late Night Signal">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Late Night Signal</h4>
+                        <p>Aeria Sessions</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod2/400/400" alt="Indian Murder Mystery">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Indian Murder Mystery</h4>
+                        <p>Red FM</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod3/400/400" alt="Horror Stories That Will Keep You Awake">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Horror Stories That Will Keep You Awake</h4>
+                        <p>True Crime &amp; Chill</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod4/400/400" alt="Anxiety and Stress Relief">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Anxiety &amp; Stress Relief</h4>
+                        <p>Mindful Living</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod5/400/400" alt="Bhaskar Bose">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Bhaskar Bose (Hindi Thriller)</h4>
+                        <p>MnM Talkies</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod6/400/400" alt="Startup Stories">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Startup Stories</h4>
+                        <p>Founders Weekly</p>
+                    </div>
+
+                
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod7/400/400" alt="Ghost Frequencies">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Ghost Frequencies</h4>
+                        <p>Aeria Sessions</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod8/400/400" alt="The Startup Grind">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>The Startup Grind</h4>
+                        <p>Founders Weekly</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod9/400/400" alt="Cricket Talk Weekly">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Cricket Talk Weekly</h4>
+                        <p>Sports Central</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod10/400/400" alt="Money Matters">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Money Matters</h4>
+                        <p>Finance Simplified</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod11/400/400" alt="Tech Unfiltered">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Tech Unfiltered</h4>
+                        <p>Kaelo &amp; Friends</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod12/400/400" alt="Sleep Stories">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Sleep Stories</h4>
+                        <p>Calm Nights</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod13/400/400" alt="History Uncovered">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>History Uncovered</h4>
+                        <p>Past Forward</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod14/400/400" alt="Comedy Hour">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Comedy Hour</h4>
+                        <p>Laugh Track</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/pod15/400/400" alt="Health Bytes">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Health Bytes</h4>
+                        <p>Wellness Weekly</p>
+                    </div>
+</div>
+</div>
+            </section>
+
+            <!-- POPULAR PLAYLISTS -->            <section class="section">
+                <div class="section-title">
+                    <h2>Popular playlists</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards-row">
+<div class="cards">
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist1/400/400" alt="NCS: Chill Wave">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>NCS: Chill Wave</h4>
+                        <p>Playlist &bull; Spotify</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist2/400/400" alt="Study Sessions">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Study Sessions</h4>
+                        <p>Playlist &bull; 64 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist3/400/400" alt="Late Night Focus">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Late Night Focus</h4>
+                        <p>Playlist &bull; 37 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist4/400/400" alt="Workout">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Workout</h4>
+                        <p>Playlist &bull; 51 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist5/400/400" alt="HARD DRIVE Vol. 2">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>HARD DRIVE Vol. 2</h4>
+                        <p>Album &bull; Raftaar</p>
+                    </div>
+
+                
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist5/400/400" alt="Bollywood Butter">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Bollywood Butter</h4>
+                        <p>Playlist &bull; 48 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist6/400/400" alt="Indie Discoveries">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Indie Discoveries</h4>
+                        <p>Playlist &bull; 42 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist7/400/400" alt="Road Trip Anthems">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Road Trip Anthems</h4>
+                        <p>Playlist &bull; 55 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist8/400/400" alt="Rainy Day Vibes">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Rainy Day Vibes</h4>
+                        <p>Playlist &bull; 33 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist9/400/400" alt="Party Starters">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Party Starters</h4>
+                        <p>Playlist &bull; 60 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist10/400/400" alt="Acoustic Mornings">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Acoustic Mornings</h4>
+                        <p>Playlist &bull; 29 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist11/400/400" alt="90s Throwback">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>90s Throwback</h4>
+                        <p>Playlist &bull; 47 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist12/400/400" alt="Deep Focus">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Deep Focus</h4>
+                        <p>Playlist &bull; 71 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist13/400/400" alt="Sad Hour">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Sad Hour</h4>
+                        <p>Playlist &bull; 25 songs</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/playlist14/400/400" alt="Gym Motivation">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Gym Motivation</h4>
+                        <p>Playlist &bull; 44 songs</p>
+                    </div>
+</div>
+</div>
+            </section>
+
+            <!-- NEW RELEASES -->
+            <section class="section">
+                <div class="section-title">
+                    <h2>New releases</h2>
+                    <a href="#">Show all</a>
+                </div>
+
+                <div class="cards-row">
+<div class="cards">
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release1/400/400" alt="Glass Horizon">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Glass Horizon</h4>
+                        <p>Aeria</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release2/400/400" alt="Undertow">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Undertow</h4>
+                        <p>Sable Rune</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release3/400/400" alt="Ember Line">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Ember Line</h4>
+                        <p>Echo Park</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release4/400/400" alt="Paper Moons">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Paper Moons</h4>
+                        <p>Nova Drift</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release5/400/400" alt="Circuit Bloom">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Circuit Bloom</h4>
+                        <p>Kaelo</p>
+                    </div>
+
+                
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release6/400/400" alt="Neon Static">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Neon Static</h4>
+                        <p>Vantablack</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release7/400/400" alt="Half Light">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Half Light</h4>
+                        <p>Solstice</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release8/400/400" alt="Drift Away">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Drift Away</h4>
+                        <p>Nightshade</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release9/400/400" alt="Faded Signals">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Faded Signals</h4>
+                        <p>Warriyo</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release10/400/400" alt="Velvet Skies">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Velvet Skies</h4>
+                        <p>Driftwood</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release11/400/400" alt="Slow Burn">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Slow Burn</h4>
+                        <p>Nova Drift</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release12/400/400" alt="Static Hearts">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Static Hearts</h4>
+                        <p>Kaelo</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release13/400/400" alt="Afterhours">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Afterhours</h4>
+                        <p>Aeria</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release14/400/400" alt="Iron Tide">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Iron Tide</h4>
+                        <p>Sable Rune</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="cover-wrap">
+<img class="cover" src="https://picsum.photos/seed/release15/400/400" alt="Northbound">
+<button class="play-btn" aria-label="Play"><i class="fa-solid fa-play"></i></button>
+</div>
+                        <h4>Northbound</h4>
+                        <p>Echo Park</p>
+                    </div>
+</div>
+</div>
+            </section>
+
+            <!-- FOOTER (desktop only) -->
+            <!-- FOOTER -->
+            <footer class="site-footer">
+
+                <div class="footer-cols">
+
+                    <div class="footer-col">
+                        <h5>Company</h5>
+                        <a href="about.html">About</a>
+                        <a href="#">Jobs</a>
+                        <a href="#">For the Record</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Communities</h5>
+                        <a href="#">For Artists</a>
+                        <a href="#">Developers</a>
+                        <a href="#">Advertising</a>
+                        <a href="#">Investors</a>
+                        <a href="#">Vendors</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Useful links</h5>
+                        <a href="contact.html">Support</a>
+                        <a href="#">Free Mobile App</a>
+                        <a href="#">Popular by Country</a>
+                        <a href="#">Top Song Lyrics</a>
+                        <a href="#">Import your music</a>
+                    </div>
+
+                    <div class="footer-col">
+                        <h5>Spotify Plans</h5>
+                        <a href="#">Premium Standard</a>
+                        <a href="#">Premium Platinum</a>
+                        <a href="#">Premium Student</a>
+                        <a href="#">Spotify Free</a>
+                    </div>
+
+                    <div class="footer-social">
+                        <button class="social-ic" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></button>
+                        <button class="social-ic" aria-label="X"><i class="fa-brands fa-x-twitter"></i></button>
+                        <button class="social-ic" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-copyright">&copy; 2026 Spotify AB</div>
+                </div>
+
+            </footer>
+
+        </main>
+
+        <!-- collapse arrow (desktop, far right edge) -->
+        <button class="collapse-arrow" aria-label="Collapse">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ============ DESKTOP SIGN-UP BANNER ============ -->
+<div class="signup-banner">
+    <div class="signup-banner-left">
+        <i class="fa-brands fa-spotify"></i>
+        <div class="signup-banner-text">
+            <strong>Preview of Spotify</strong>
+            <span>Sign up to get unlimited songs and podcasts with occasional ads. No credit card needed.</span>
+        </div>
+    </div>
+    <button class="signup-free-btn" onclick="window.location.href='signup.html'">Sign up free</button>
+</div>
+
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav class="mobile-nav">
+    <button class="mobile-nav-item active">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </button>
+    <button class="mobile-nav-item">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search</span>
+    </button>
+    <button class="mobile-nav-item">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Your Library</span>
+    </button>
+    <button class="mobile-nav-item">
+        <i class="fa-brands fa-spotify"></i>
+        <span>Premium</span>
+    </button>
+</nav>
+
+
+<script src="../JS/before.js"></script>
+
+</body>
+</html>

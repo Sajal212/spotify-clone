@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up - Spotify Clone</title>
+
+    <link rel="stylesheet" href="../FONTS/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== LOGO / HEADING ===== */
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 60px 25px 45px;
+            text-align: center;
+        }
+
+        .spotify-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            color: #fff;
+            font-size: 40px;
+            margin-bottom: 24px;
+       }
+
+        .login-container h1 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 35px;
+        }
+
+        /* ===== FORM ===== */
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            background: #121212;
+            border: 1px solid #727272;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #727272;
+        }
+
+        .form-group input:hover {
+            border-color: #fff;
+        }
+
+        .form-group input:focus {
+            border: 2px solid #fff;
+        }
+
+        /* ===== ERROR MESSAGE ===== */
+
+        .form-error {
+            display: none;
+            background: rgba(233, 20, 41, 0.12);
+            border: 1px solid #e91429;
+            color: #ff6b6b;
+            border-radius: 4px;
+            padding: 10px 14px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        /* ===== NEXT BUTTON ===== */
+
+        .login-submit {
+            width: 100%;
+            height: 48px;
+            margin-top: 8px;
+            background: #1ed760;
+            color: #000;
+            border: none;
+            border-radius: 500px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-submit:hover {
+            background: #1fdf64;
+            transform: scale(1.03);
+        }
+
+        /* ===== DIVIDER ===== */
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 32px 0;
+        }
+
+        .divider span {
+            height: 1px;
+            background: #444;
+            flex: 1;
+        }
+
+        .divider p {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* ===== SOCIAL BUTTONS ===== */
+
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-btn {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #727272;
+            border-radius: 500px;
+            background: transparent;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .social-btn:hover {
+            border-color: #fff;
+            transform: scale(1.02);
+        }
+
+        .social-btn i {
+            font-size: 18px;
+        }
+
+        /* ===== SIGN UP / LOG IN SWITCH ===== */
+
+        .signup-area {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .signup-area p {
+            color: #b3b3b3;
+            font-size: 15px;
+        }
+
+        .signup-area a {
+            display: inline-block;
+            margin-top: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .signup-area a:hover {
+            color: #1ed760;
+        }
+
+        /* ===== FINE PRINT ===== */
+
+        .signup-fine-print {
+            margin-top: 28px;
+            text-align: center;
+            font-size: 11px;
+            color: #a7a7a7;
+            line-height: 1.6;
+        }
+
+        .signup-fine-print a {
+            color: #a7a7a7;
+            text-decoration: underline;
+        }
+
+        .signup-fine-print a:hover {
+            color: #fff;
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media(max-width: 600px) {
+
+            .login-container {
+                padding: 45px 24px 35px;
+            }
+
+            .login-container h1 {
+                font-size: 30px;
+                margin-bottom: 30px;
+            }
+
+            .social-btn {
+                height: 46px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <div class="spotify-mark">
+            <i class="fa-brands fa-spotify"></i>
+        </div>
+
+        <h1>Sign up to<br>start listening</h1>
+
+        <p class="form-error" id="signupError"></p>
+
+        <form id="signupForm">
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="name@domain.com"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Re-enter your password"
+                >
+            </div>
+
+            <button type="submit" class="login-submit">
+                Next
+            </button>
+
+        </form>
+
+        <div class="divider">
+            <span></span>
+            <p>or</p>
+            <span></span>
+        </div>
+
+        <div class="social-login">
+
+            <button class="social-btn">
+                <i class="fa-solid fa-mobile-screen"></i>
+                Sign up with phone number
+            </button>
+
+            <button class="social-btn">
+                <i class="fa-brands fa-google"></i>
+                Sign up with Google
+            </button>
+
+            <button class="social-btn">
+                <i class="fa-brands fa-apple"></i>
+                Sign up with Apple
+            </button>
+
+        </div>
+
+        <div class="signup-area">
+            <p>Already have an account?</p>
+
+            <a href="login.html">
+                Log in
+            </a>
+        </div>
+
+        <p class="signup-fine-print">
+            This site is protected by reCAPTCHA and the Google
+            <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a> apply.
+        </p>
+
+    </main>
+
+    <!-- All the sign up logic lives in its own file, see JS/signup.js -->
+    <script src="../JS/users.js"></script>
+    <script src="../JS/signup.js"></script>
+
+</body>
+</html>

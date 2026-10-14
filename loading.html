@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loading...</title>
+<meta http-equiv="refresh" content="2.3; url=HTML/before.html">
+<link rel="stylesheet" href="FONTS/css/all.min.css">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html, body{
+    height:100%;
+}
+
+body{
+    background:#000;
+    color:white;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+    overflow:hidden;
+    opacity:0;
+    animation:page-in 0.6s ease forwards;
+}
+
+@keyframes page-in{
+    from{ opacity:0; }
+    to{ opacity:1; }
+}
+
+/* fades to black right as the redirect fires */
+.fade-cover{
+    position:fixed;
+    inset:0;
+    background:#000;
+    opacity:0;
+    pointer-events:none;
+    animation:fade-cover-in 0.5s ease forwards;
+    animation-delay:1.8s;
+}
+
+@keyframes fade-cover-in{
+    from{ opacity:0; }
+    to{ opacity:1; }
+}
+
+/* Logo wrapper — glow sits centered behind the icon */
+.logo-wrap{
+    position:relative;
+    width:140px;
+    height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.glow{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    width:140px;
+    height:140px;
+    background:radial-gradient(circle, rgba(29,185,84,0.16) 0%, rgba(29,185,84,0) 70%);
+    pointer-events:none;
+    z-index:0;
+}
+
+.logo{
+    position:relative;
+    z-index:1;
+    animation:pulse 2.2s ease-in-out infinite;
+}
+
+.logo i{
+    font-size:56px;
+    color:#1DB954;
+    filter:drop-shadow(0 0 6px rgba(29,185,84,0.35));
+}
+
+@keyframes pulse{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.05); }
+}
+
+/* Loading Bar */
+.container{
+    position:relative;
+    width:220px;
+    height:8px;
+    border-radius:8px;
+    background-color:#2a2a2a;
+    overflow:hidden;
+}
+
+.bar{
+    width:0;
+    height:100%;
+    border-radius:8px;
+    background:#1DB954;
+    box-shadow:0 0 12px rgba(29,185,84,0.6);
+    animation:loading 2s ease-in-out forwards;
+}
+
+@keyframes loading{
+    0%{
+        width:0;
+    }
+    100%{
+        width:100%;
+    }
+}
+
+.load{
+    font-size:13px;
+    font-weight:500;
+    color:#b3b3b3;
+    letter-spacing:0.3px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="fade-cover"></div>
+
+<div class="logo-wrap">
+    <div class="glow"></div>
+    <div class="logo">
+        <i class="fa-brands fa-spotify"></i>
+    </div>
+</div>
+
+<div class="container">
+    <div class="bar"></div>
+</div>
+
+<div class="load">Loading...</div>
+
+</body>
+</html>
